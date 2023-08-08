@@ -9,7 +9,7 @@ const btnLoad = document.querySelector('.load-more')
 const enterInput = form.firstElementChild;
 const btnSearch = form.lastElementChild;
 
-const perPage = 20;
+const perPage = 10;
 let currentPage = 1;
 let querry = ""
 let quantityPage = null
@@ -88,7 +88,7 @@ async function handlerLoad() {
 }
 
 
-// 
+// рендри розітку
 function createMarcupGallery(hits) {
     return hits.map((
         { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
