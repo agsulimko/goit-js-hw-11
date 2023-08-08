@@ -159,10 +159,10 @@ font-size: 12px;
 .btn-to-top.visible:focus {
   background-color: dodgerblue;
 }
-
+/* 
 .btn-wrapper {
   position: fixed;
   z-index: 1000;
-  right: 100px;
+  right: 200px;
   bottom: 100px;
-}
+} */
