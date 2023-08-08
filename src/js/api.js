@@ -1,5 +1,5 @@
-import axios from "axios";
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+ import axios from "axios";
+// import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
 const BAZE_URL = 'https://pixabay.com/api/'

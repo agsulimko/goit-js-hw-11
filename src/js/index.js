@@ -1,7 +1,6 @@
-//ВАРІАНТ КОДУ З КНОПКОЮ LOAD MORE
 import { getPhotosService } from "./api";
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+// import SimpleLightbox from "simplelightbox";
+// import "simplelightbox/dist/simple-lightbox.min.css";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const form = document.querySelector('#search-form')
