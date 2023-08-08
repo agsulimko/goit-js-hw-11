@@ -114,7 +114,7 @@ body {
 }
 
 .load-more {
- /* display: block; */
+ display: block;
 
  margin: 0 auto;
   background-color: cornflowerblue;
