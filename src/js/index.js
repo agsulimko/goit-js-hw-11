@@ -1,6 +1,6 @@
 import { getPhotosService } from "./api";
-// import SimpleLightbox from "simplelightbox";
-// import "simplelightbox/dist/simple-lightbox.min.css";
+ import SimpleLightbox from "simplelightbox";
+ import "simplelightbox/dist/simple-lightbox.min.css";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const form = document.querySelector('#search-form')
@@ -9,20 +9,22 @@ const btnLoad = document.querySelector('.load-more')
 const enterInput = form.firstElementChild;
 const btnSearch = form.lastElementChild;
 
-const perPage = 40;
+const perPage = 20;
 let currentPage = 1;
 let querry = ""
 let quantityPage = null
 
 
 enterInput.addEventListener('focus', handlerFocusInput)
-
+// Приховуємо кнопку LOAD MORE
 btnLoad.classList.add('is-hidden')
+console.log(btnSearch);
 btnSearch.disabled = true;
-
+// 
 function handlerFocusInput() {
     btnSearch.disabled = false;
     form.addEventListener('submit', handlerSearch)
+    btnLoad.classList.add('is-hidden')
 }
 
 async function handlerSearch(evt) {
@@ -31,6 +33,7 @@ async function handlerSearch(evt) {
     gallery.innerHTML = ""
     currentPage = 1;
     const { searchQuery } = evt.currentTarget.elements;
+    console.log(evt.currentTarget.elements);
     querry = searchQuery.value.trim();
 
     if (evt.type === 'submit') {
@@ -85,7 +88,7 @@ async function handlerLoad() {
 }
 
 
-
+// 
 function createMarcupGallery(hits) {
     return hits.map((
         { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
@@ -116,7 +119,7 @@ function createLightbox() {
     const lightbox = new SimpleLightbox('.gallery a', {
         captions: true,
         captionsData: 'alt',
-        captionDelay: 250,
+        captionDelay: 200,
     });
     lightbox.refresh();
 }
