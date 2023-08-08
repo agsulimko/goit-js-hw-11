@@ -1,33 +1,36 @@
-//ВАРІАНТ КОДУ З КНОПКОЮ LOAD MORE
+//ВАРІАНТ КОДУ З КНОПКОЮ LOAD MORE та безкінечним скролом одночасно
 import { getPhotosService } from "./api";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const form = document.querySelector('#search-form')
-const gallery = document.querySelector('.gallery')
-const btnLoad = document.querySelector('.load-more')
+const form = document.querySelector('#search-form');
+const gallery = document.querySelector('.gallery');
+const btnLoad = document.querySelector('.load-more');
+const guard = document.querySelector('.js-guard');
 const enterInput = form.firstElementChild;
 const btnSearch = form.lastElementChild;
+const btnToTop = document.getElementById('scroll-to-top-btn');
 
 const perPage = 40;
 let currentPage = 1;
-let querry = ""
-let quantityPage = null
+let querry = "";
+let quantityPage = null;
 
-
-enterInput.addEventListener('focus', handlerFocusInput)
+enterInput.addEventListener('input', handlerInput)
+window.addEventListener('scroll', handlerTopScroll)
+btnToTop.addEventListener('click', handlerBtnToTop)
 
 btnLoad.classList.add('is-hidden')
 btnSearch.disabled = true;
 
-function handlerFocusInput() {
+function handlerInput() {
     btnSearch.disabled = false;
     form.addEventListener('submit', handlerSearch)
 }
 
 async function handlerSearch(evt) {
-    handlerFocusInput()
+    handlerInput()
     evt.preventDefault();
     gallery.innerHTML = ""
     currentPage = 1;
@@ -55,7 +58,8 @@ async function handlerSearch(evt) {
 
             if (currentPage < quantityPage) {
                 btnLoad.classList.remove('is-hidden');
-                btnLoad.addEventListener('click', handlerLoad)
+                btnLoad.addEventListener('click', handlerLoad);
+                observer.observe(guard);
             }
         }
         catch (err) {
@@ -66,7 +70,7 @@ async function handlerSearch(evt) {
 
 async function handlerLoad() {
     currentPage += 1;
-    console.log(currentPage);
+
     try {
         const { hits } = await getPhotosService(querry, currentPage);
 
@@ -77,6 +81,7 @@ async function handlerLoad() {
 
         if (currentPage === quantityPage) {
             Notify.info("We're sorry, but you've reached the end of search results.");
+            observer.unobserve(guard);
             btnLoad.classList.add('is-hidden');
         }
     }
@@ -121,7 +126,7 @@ function createLightbox() {
     });
     lightbox.refresh();
 }
-
+// для автоматичної прокрутки сторінки при завантаженні нової партії фото 
 function scrollGallery() {
     const { height: cardHeight } = document
         .querySelector(".gallery")
@@ -132,3 +137,67 @@ function scrollGallery() {
         behavior: "smooth",
     });
 }
+
+
+//інфініті-скрол
+const observer = new IntersectionObserver(handlerInfinitiLoad, {
+    rootMargin: '300px',
+    threshold: 1.0
+});
+
+//колбек для обсервера 
+function handlerInfinitiLoad(entries, observer) {
+
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            console.log(entry);
+            currentPage += 1;
+            createNewPage();
+        }
+    });
+
+    if (currentPage < quantityPage) {
+
+        btnLoad.classList.remove('is-hidden');
+        btnLoad.addEventListener('click', handlerLoad);
+        observer.observe(guard);
+    }
+
+    if (currentPage === quantityPage) {
+        observer.unobserve(guard);
+        btnLoad.classList.add('is-hidden');
+        Notify.info("We're sorry, but you've reached the end of search results.");
+    }
+}
+
+async function createNewPage() {
+    try {
+        const { hits } = await getPhotosService(querry, currentPage);
+
+        gallery.insertAdjacentHTML('beforeend', createMarcupGallery(hits));
+
+        createLightbox();
+
+    }
+    catch (err) {
+        Notify.failure(err.message);
+        console.log(err);
+    }
+}
+
+
+function handlerTopScroll() {
+    if (document.body.scrollTop > 700 || document.documentElement.scrollTop > 700) {
+        btnToTop.classList.add('visible');
+    } else {
+        btnToTop.classList.remove('visible');
+    }
+}
+
+function handlerBtnToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
