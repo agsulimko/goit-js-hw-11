@@ -14,8 +14,8 @@ const getPhotosService = async (value, page) => {
             image_type: "photo",
             orientation: "horizontal",
             safesearch: "true",
-            // page: page,
-            // per_page: 20,
+             page: page,
+             per_page: 40,
         }
     });
     return data;

@@ -9,7 +9,7 @@ const btnLoad = document.querySelector('.load-more')
 const enterInput = form.firstElementChild;
 const btnSearch = form.lastElementChild;
 
-const perPage = 10;
+const perPage = 40;
 let currentPage = 1;
 let querry = ""
 let quantityPage = null
@@ -35,7 +35,9 @@ async function handlerSearch(evt) {
     const { searchQuery } = evt.currentTarget.elements;
     console.log(evt.currentTarget.elements);
     querry = searchQuery.value.trim();
+    // console.log(querry);
     btnLoad.classList.add('is-hidden');
+    if (!querry) { return };
     if (evt.type === 'submit') {
         btnLoad.classList.add('is-hidden')
         try {
@@ -68,7 +70,7 @@ async function handlerSearch(evt) {
 
 async function handlerLoad() {
     currentPage += 1;
-    console.log(currentPage);
+    // console.log(currentPage);
     try {
         const { hits } = await getPhotosService(querry, currentPage);
 
@@ -88,7 +90,7 @@ async function handlerLoad() {
 }
 
 
-// рендри розітку
+// рендримо розмітку
 function createMarcupGallery(hits) {
     return hits.map((
         { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
