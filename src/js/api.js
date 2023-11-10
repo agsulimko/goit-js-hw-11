@@ -18,6 +18,7 @@ const getPhotosService = async (value, page) => {
              per_page: 40,
         }
     });
+    console.log(data);
     return data;
 }
 

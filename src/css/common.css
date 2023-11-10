@@ -51,7 +51,7 @@ body {
   color: white;
   cursor: pointer;
   border-radius: 10px;
-  background-color: rgb(57, 67, 130);
+  background-color: cornflowerblue;
   border-color: transparent;
   transition: background-color var(--transition-duration-funktion);
 }
@@ -120,26 +120,26 @@ width: 100%;
 }
 
 .load-more {
- display: block;
-
- margin: 0 auto;
+  display: block;
   background-color: cornflowerblue;
-  padding: 5px 5px;
-font-size: 12px;
+  padding: 10px 5px;
+  margin-left: auto;
+  margin-right: auto;
+
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   color: white;
   font-style: inherit;
+  margin-bottom: 50px;
   cursor: pointer;
   border: 1px solid transparent;
-  background-color: rgb(57, 67, 130);
+  background-color: gray;
   border-radius: 10px;
-  transition: background-color 250ms linear;
+  transition: background-color var(--transition-duration-funktion);
 }
-
 .load-more:hover,
 .load-more:focus {
-  background-color: rgb(42, 179, 174);
+  background-color: dodgerblue;
 }
 
 .btn-to-top {
@@ -166,3 +166,9 @@ font-size: 12px;
   background-color: dodgerblue;
 }
 
+.btn-wrapper {
+  position: fixed;
+  z-index: 1000;
+  right: 100px;
+  bottom: 100px;
+}
